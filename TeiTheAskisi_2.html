@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        table, th, td {
+            width:500px;
+            border: 1px solid black;
+            border-collapse: collapse;
+            line-height:25px;
+        }
+     </style>
+
+</head>
+
+<body>
+
+
+<div> <button type="button" id="button1" onclick="insertRow()">Insert Row</button> </div><br/><br/>
+<div> <button type="button" id="buttonStart" onclick="autoSlide()" >Start SlideShow</button> </div><br/><br/>
+<div> <button type="button" id="buttonEnd" onclick="endSlide()" >End SlideShow</button> </div><br/><br/>
+
+<table id="imageTable" >
+    <tr height="50">
+        <td height="50">      </td>
+        <td height="50">      </td>
+        <td height="50">      </td>
+    </tr>
+</table>
+<br/>
+
+<img src="img/Askisi2_img1.jpg" id="image" style="display:none;" />
+<img src="img/Askisi2_img1.jpg" id="slideShow" />
+
+
+<script>
+
+    var index=1;
+    var filenameImage = "Askisi2_img1.jpg"; var filenameImgPicture;
+    var imgNameID; var buttonN; var txtFileName; var target=0;
+    var cell1; var cell2; var cell3; var t3; var imageNumber=0;
+    var myVar;
+
+    var imageArray = new Array("img/Askisi2_img1.jpg", "img/Askisi2_img2.jpg", "img/Askisi2_img3.jpg");
+
+    function autoSlide () {
+        myVar = setInterval(function () {
+            imageNumber++;
+            if (imageNumber >= imageArray.length ) {
+             imageNumber=0;
+             }
+
+             if (imageNumber < 0 ) {
+             imageNumber=imageArray.length;
+             }
+
+            target=document.getElementById("slideShow");
+            target.src= imageArray[imageNumber];
+
+        }, 1000);
+    }
+
+    function endSlide() {
+        clearInterval(myVar);
+    }
+
+    function insertRow() {
+
+        var table = document.getElementById("imageTable");
+        var row = table.insertRow(0);
+
+        var cell1 = row.insertCell(0);
+        cell1.style.height = "70px";
+        var t1=document.createElement("input");
+        t1.setAttribute("type", "file");
+        txtFileName = "txtName"+ index;
+        t1.id = txtFileName;
+        cell1.appendChild(t1);
+
+         document.getElementById(txtFileName).onchange = function () {
+           alert('Selected file: ' + this.value);
+           var localPathValue = (this.value).replace("C:\\fakepath\\", "");
+           filenameImage = localPathValue ;
+       //      filenameImage = getAbsoluteUrl (this.value) ;
+             alert('Selected file -- filenameImage: ' + filenameImage);
+            filenameImgPicture = "img/" + filenameImage;
+             alert('Selected file - filenameImgImage: ' + filenameImgPicture);
+             filenameImage=filenameImgPicture;
+            };
+
+        cell2 = row.insertCell(1);
+        cell2.style.height = "70px";
+        var t2=document.createElement("button");
+        t2.setAttribute("type", "button");
+        buttonN= "buttonName"+ index;
+        t2.id = "buttonN";
+        var t = document.createTextNode("Load Picture");
+        t2.appendChild(t);
+
+        //This is the onclick of "Load Picture", 2nd Cell of the Row
+        t2.onclick = function() {
+        index--;
+        t3.src = filenameImage;
+        imgNameID = "imgName"+ index;
+        t3.id = imgNameID;
+   //     cell3.removeChild();
+            if (t3.childElementCount > 0) {
+                // It has at least one element as a child
+                var myNode = document.getElementById(t3);
+                myNode.innerHTML = '';
+                cell3.appendChild(t3);
+            } else {
+        cell3.appendChild(t3);}
+
+        index++;
+        };
+
+        cell2.appendChild(t2);
+
+        t3=document.createElement("input");
+        t3.setAttribute("type", "image");
+
+        cell3 = row.insertCell(2);
+        cell3.style.height = "70px";
+     //   t3.src = "img/Askisi2_img1.jpg";
+
+        /*t3.src = "img/" + filenameImage;
+        imgNameID = "imgName"+ index;
+        t3.id = "imgNameID";*/
+
+        cell3.appendChild(t3);
+
+        index++;
+}
+
+
+</script>
+
+</body>
+</html>
